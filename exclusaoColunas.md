@@ -4,9 +4,9 @@
 **Objetivo:** Reduzir a dimensionalidade do dataset do SINAN, removendo atributos que introduzem ruído, viés ou vazamento de dados no treinamento dos modelos.
 
 ## Resumo da Execução
-* **Entrada:** Dataset amostrado com 121 atributos e 100.000 instâncias.
-* **Saída:** Dataset limpo com 55 atributos.
-* **Total Excluído:** 66 colunas descartadas por falta de relevância preditiva ou clínica.
+* **Entrada:** Dataset amostrado com 122 atributos e 200.000 instâncias.
+* **Saída:** Dataset limpo com 54 atributos.
+* **Total Excluído:** 68 colunas descartadas por falta de relevância preditiva ou clínica.
 
 ---
 
@@ -44,4 +44,10 @@ Campos administrativos do sistema governamental que não possuem relação causa
 * **O Risco do Ano (`nu_ano`):** * *Motivo:* Excluído para evitar que o algoritmo memorize padrões temporais fixos ("overfitting" no ano da coleta). A verdadeira sazonalidade da doença será extraída dos meses de notificação (período de chuvas).
 
 ---
-**Próximo Passo:** O dataset resultante (`dataset_sem_col_irrelevantes.csv`) contém os 55 atributos clínicos e temporais estritamente necessários e será submetido a scripts de *Feature Engineering* para imputação de nulos, binarização lógica (0 e 1), agrupamentos de atributos e cálculo de dias de evolução da doença.
+**Próximo Passo:** O dataset resultante (`dataset_sem_col_irrelevantes.csv`) contém os 55 atributos clínicos e temporais estritamente necessários e será submetido a scripts de agrupamentos de atributos iguais. 
+
+### TODO:
+- Imputação de nulos
+- Binarização lógica (0 e 1), 
+- Agrupamentos de atributos 
+- Cálculo de dias de evolução da doença. (dengue principalmente tem uma evolução cronológica bem definida)
