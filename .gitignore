@@ -1,0 +1,15 @@
+# 1. Ignora absolutamente tudo no repositório por padrão
+*
+
+# 2. A EXCEÇÃO DOS DIRETÓRIOS (Obrigatório)
+# Se você não liberar as pastas, o Git fica cego e nem entra nelas para procurar os .py
+!*/
+
+# 3. A WHITELIST (O que você realmente quer salvar)
+# Libera todos os scripts Python (como o seu 2_pre_processamento.py)
+!*.py
+!*.md
+
+# 4. Arquivos essenciais do repositório
+# Permite versionar as próprias regras do Git e a documentação do projeto
+!.gitignore
