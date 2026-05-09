@@ -11,6 +11,10 @@
 
 #### ANOTAÇÕES DEPOIS REESCREVO
 
-classi_fin será transformado em um único atributo binário (0 para sem arbovirose e 1 para com arbovirose)
+- classi_fin: foram descartadas as instancias que não tenham 1 ou 2. Foi criada uma nova coluna arbovirose onde casa classi_fin = 1 -> arbovirose = 1, do contrário arbovirose = 0
+- dt_sin_pri: vai ser útil para a sazonalidade da doença, pra isso basta extrair os meses da data, e tmabém útil pra evolução da doença, dengue principalmente tem um cronograma bem definido que lá pro dia 5 do começo dos sintomas tem a piora do vomito, por exemplo, para isso precisa fazer dt_notific - dt_sin_pri = dias_ate_a_consulta
+- nu_anos: transformou do código bizarro para anos inteiro, util porque diferentes faixas etárias apresentam diferentes sintomas
+- cs_sexo: transformou de F e M para 0 e 1. Motivo de manter é o mesmo de cima
+- Todos os sintomas foram binarizados para 0 e 1 (usavam 1 e 2 originalmente)
 
 **OBS: NÃO TERMINEI ESSA BOMBA**
