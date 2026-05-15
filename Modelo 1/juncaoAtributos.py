@@ -4,22 +4,22 @@ import numpy as np
 # =====================================================================
 # FUNÇÕES AUXILIARES
 # =====================================================================
-def converter_idade_sinan(codigo):
+def converter_idade_sinan(codigo):  # A idade vem no formato num formato de 4 digitos, sendo o primeiro referente a unidade de medida (dias, meses ou anos) e o restante a quantidade em si
     """Converte o código composto de idade do SINAN para anos inteiros."""
-    codigo_str = str(codigo).split('.')[0] 
+    codigo_str = str(codigo).split('.')[0]  # Caso o numero inteiro tenha vindo como decimal, o .split corta o ponto tornando inteiro
     
-    if len(codigo_str) < 4 or codigo_str == 'nan':
+    if len(codigo_str) < 4 or codigo_str == 'nan':  # Se tiver menos de 4 digitos ou fou um NaN retorna NaN
         return np.nan
         
-    unidade = codigo_str[0]
-    valor = int(codigo_str[1:])
+    unidade = codigo_str[0]     # Salva a unidade
+    valor = int(codigo_str[1:]) # Pega o restante para ser o valor
     
-    if unidade == '4':
-        return valor # Anos
+    if unidade == '4':          # Código 4 = anos
+        return valor            # Retorna o próprio valor
     elif unidade in ['1', '2', '3']:
-        return 0 # Horas, Dias ou Meses viram 0 anos
-    elif unidade == '5':
-        return valor + 100 # Mais de 100 anos
+        return 0                # Horas, Dias ou Meses viram 0 anos
+    elif unidade == '5':        # Código 5 a pessoa tem mais de 100 anos e a idade real é valor + 100
+        return valor + 100
     else:
         return np.nan
 
@@ -27,7 +27,7 @@ def converter_idade_sinan(codigo):
 # FASE 1: CARREGAMENTO E PADRONIZAÇÃO BÁSICA
 # =====================================================================
 print("Carregando o dataset...")
-df = pd.read_csv('dataset_sem_col_irrelevantes.csv', sep=',', encoding='utf-8')
+df = pd.read_csv('dataset_sem_col_irrelevantes.csv', sep=',', encoding='utf-8') 
 df.columns = df.columns.str.lower().str.strip()
 
 print(f"Tamanho inicial: {df.shape[0]} linhas e {df.shape[1]} colunas")
@@ -38,11 +38,11 @@ print(f"Tamanho inicial: {df.shape[0]} linhas e {df.shape[1]} colunas")
 print("\nProcessando a variável alvo...")
 
 # Força conversão para número
-df['classi_fin'] = pd.to_numeric(df['classi_fin'], errors='coerce')
+df['classi_fin'] = pd.to_numeric(df['classi_fin'], errors='coerce') # classi_fin (classe alvo) é forçada a ser um número
 
 # Mantém apenas as linhas que são Confirmadas (10 a 13) ou Descartadas (5)
-codigos_validos = [10, 11, 12, 13, 5]
-df = df[df['classi_fin'].isin(codigos_validos)].copy()
+codigos_validos = [10, 11, 12, 13, 5]   # Códigos 10, 11, 12, 13 e 5 são os códigos válidos
+df = df[df['classi_fin'].isin(codigos_validos)].copy()  # .isin verifica se os valores de codigos_validos estão em (is in). O termo dentro do colchetes cria uma máscara booleana usando o .isin
 
 # Cria o alvo binário: 
 # Transforma o 5 (Descartado) em 0

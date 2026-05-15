@@ -6,7 +6,7 @@
 ## Resumo da Execução
 * **Entrada:** Dataset amostrado com 122 atributos e 200.000 instâncias.
 * **Saída:** Dataset limpo com 54 atributos.
-* **Total Excluído:** 68 colunas descartadas por falta de relevância preditiva ou clínica.
+* **Total Excluído:** 77 colunas descartadas por falta de relevância preditiva ou clínica.
 
 ---
 
@@ -27,27 +27,26 @@ Nosso problema de negócio é de **Diagnóstico** (descobrir qual é o vírus), 
   * *Motivo:* O fato de o paciente ter morrido ou sido internado é uma consequência da doença, não um dado de entrada para prevê-la.
 
 ### 3. Variância Zero e Matrizes Esparsas Inúteis
-Durante a Análise Exploratória de Dados (EDA) na nossa amostra de 100.000 linhas, identificamos atributos com quase 100% de valores nulos (`NaN`).
+Durante a Análise Exploratória de Dados (EDA) na nossa amostra de 200.000 linhas, identificamos atributos com 100% de valores nulos (`NaN`).
 * **Sintomas Hemorrágicos Raros:** `mani_hemor`, `epistaxe` (sangramento nasal), `gengivo`, `metro` (metrorragia), `petequias`, `hematura` (sangue na urina), `sangram`, `laco_n`, `plasmatico`, `evidencia`, `plaq_menor`, `con_fhd`.
-  * *Motivo:* Sendo eventos extremamente raros na amostra base, essas colunas não oferecem Ganho de Informação (*Information Gain*) para a Árvore de Decisão. Mantê-las apenas consumiria processamento e memória à toa. *(Nota: O sangramento uterino e outros sinais de alarme principais foram mantidos ou fundidos na etapa de Engenharia de Atributos, aqui foram excluídos SOMENTE sintomas que na nossa amostragem sequer apareciam).*
+  * *Motivo:* Sendo eventos inexistentes na amostra base, essas colunas não oferecem Ganho de Informação (*Information Gain*) para a Árvore de Decisão. Mantê-las apenas consumiria processamento e memória à toa. *(Nota: O sangramento uterino e outros sinais de alarme principais foram mantidos ou fundidos na etapa de Engenharia de Atributos, aqui foram excluídos SOMENTE sintomas que na nossa amostragem sequer apareciam).*
 
 ### 4. Burocracia, Metadados e Redundâncias
 Campos administrativos do sistema governamental que não possuem relação causal com a biologia da infecção viral.
 * **Controle do Sistema:** `dt_invest`, `dt_digita`, `cs_flxret`, `flxrecebi`, `migrado_w`, `tp_sistema`, `criterio`.
   * *Motivo:* A data em que o digitador do hospital inseriu a ficha no sistema não altera o diagnóstico clínico. O campo `criterio` foi descartado para evitar viés de seleção entre casos confirmados por laboratório vs. clínica.
-* **Localidades Redundantes e Demografia Irrelevante:** `tp_not`, `id_agravo`, `cs_raca`, `sg_uf`, `id_mn_resi`, `id_rg_resi`, `id_pais`, `uf`, `municipio`, `tpautocto`, `coufinf`, `copaisinf`, `comuninf`.
-  * *Motivo:* O município de notificação principal já foi mantido em outro atributo. Identificadores estaduais e nacionais repetitivos foram removidos.
+* **Localidades Redundantes e Demografia Irrelevante:** `tp_not`, `id_agravo`, `cs_raca`, `sg_uf`, `id_mn_resi`, `id_rg_resi`, `id_pais`, `uf`, `municipio`, `tpautocto`, `coufinf`, `copaisinf`, `comuninf`, `id_unidade`, `id_regiona`, `sg_uf_not`, `id_municip`.
+  * *Motivo:* Inicialmente não estaremos usando informações de localidade, embora futuramente talvez seja útil para informar onde está tendo possíveis surtos locais.
 * **Idade e Ano de Nascimento:** `ano_nasc`.
   * *Motivo:* Redundante. A coluna de idade primária (`nu_idade_n`) foi mantida para sofrer conversão matemática para anos inteiros na próxima etapa.
 * **Ocupação:** `id_ocupa_n`.
   * *Motivo:* O vetor transmissor (mosquito *Aedes aegypti*) não discrimina vítimas com base no regime de contratação trabalhista (CLT). O risco de infecção está ligado à localidade e vulnerabilidade sanitária, não ao código CBO da profissão.
 * **O Risco do Ano (`nu_ano`):** * *Motivo:* Excluído para evitar que o algoritmo memorize padrões temporais fixos ("overfitting" no ano da coleta). A verdadeira sazonalidade da doença será extraída dos meses de notificação (período de chuvas).
+* **Escolaridade (`cs_escol_n`):**
+*Motivo:* Excluído por ser irrelevante para o moesquito o grau de escolaridade, embora fatores sociais e economicos possam ter relação indireta com a infecção.
+* **Gestação (`cs_gestant`):** *Motivo*: Gestação é um atributo muito importante para prognóstico, porém irrelevante para diagnóstico.
+* **Semana de notificação (`sem_not` e `sem_pri`):** *Motivo*: Semana de notificação foi extraída de outro atributo.
+
 
 ---
-**Próximo Passo:** O dataset resultante (`dataset_sem_col_irrelevantes.csv`) contém os 55 atributos clínicos e temporais estritamente necessários e será submetido a scripts de agrupamentos de atributos iguais. 
-
-### TODO:
-- Imputação de nulos
-- Binarização lógica (0 e 1), 
-- Agrupamentos de atributos 
-- Cálculo de dias de evolução da doença. (dengue principalmente tem uma evolução cronológica bem definida)
+**Próximo Passo:** O dataset resultante (`dataset_sem_col_irrelevantes.csv`) contém os 45 atributos clínicos e temporais estritamente necessários e será submetido a scripts de exclusão de instâncias com atributos ausentes e agrupamentos de atributos iguais. 

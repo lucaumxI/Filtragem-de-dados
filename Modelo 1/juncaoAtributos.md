@@ -4,7 +4,7 @@
 **Objetivo:** Reduzir a dimensionalidade do dataset do SINAN, removendo atributos que introduzem ruído, viés ou vazamento de dados no treinamento dos modelos.
 
 ## Resumo da Execução
-* **Entrada:** Dataset amostrado com 43 atributos e 200.000 instâncias.
+* **Entrada:** Dataset amostrado com 45 atributos e 200.000 instâncias.
 * **Saída:** Dataset limpo com 21 atributos e 179.163 instâncias.
 
 

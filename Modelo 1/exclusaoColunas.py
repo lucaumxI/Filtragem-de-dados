@@ -29,7 +29,7 @@ colunas_para_excluir = [
     # 4. Desfecho do Paciente e Evolução (Data Leakage)
     'hospitaliz', 'dt_interna', 'doenca_tra', 'evolucao', 
     'dt_obito', 'dt_encerra', 'complica', 
-    'dt_alrm', 'dt_grav', 
+    # 'dt_alrm', 'dt_grav', não sei se isso era pra estar aqui
 
     # 5. Comorbidades
     'diabetes', 'hematolog', 'hepatopat', 'renal', 'hipertensa', 
