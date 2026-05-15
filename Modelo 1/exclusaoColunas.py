@@ -2,12 +2,12 @@ import pandas as pd
 
 print("Carregando o dataset...")
 
-df = pd.read_csv('datasetAmostrado.csv', sep=',', encoding='utf-8')
-df.columns = df.columns.str.lower().str.strip()
+df = pd.read_csv('datasetAmostrado.csv', sep=',', encoding='utf-8') # Carrega o .csv com o dataset
+df.columns = df.columns.str.lower().str.strip()                     # Deixa os labels de todas as colunas minusculas e sem espaço
 
 print(f"Tamanho original: {df.shape[0]} linhas e {df.shape[1]} colunas")
 
-# ====================== COLUNAS PARA EXCLUIR MANUALMENTE ======================
+# ====================== COLUNAS PARA EXCLUIR ======================
 colunas_para_excluir = [
     # 1. Burocracia, Identificadores e Overfitting
     'tp_not', 'nu_ano', 'ano_nasc', 'cs_raca', 'cs_escol_n',
@@ -57,25 +57,26 @@ print(f"Tamanho após exclusão manual: {df.shape[0]} linhas e {df.shape[1]} col
 # 2. Remover colunas constantes (apenas 1 valor único)
 print("\n🔍 Verificando colunas constantes (1 único valor)...")
 
-n_unicos = df.nunique()
-colunas_constantes = n_unicos[n_unicos == 1].index.tolist()
-
+n_unicos = df.nunique() # Retorna uma série onde cada indice representa uma coluna e o valor do indice a quantidade de valores únicos que essa coluna tem
+colunas_constantes = n_unicos[n_unicos == 1].index.tolist() # n_unicos == 1: cria uma máscara booleana onde tudo que for igual a 1 vira True. 
+                                                            # n_unicos[n_unicos == 1]: passando a máscara como parametro vai pegar todos os índices em que a máscara é true
+                                                            # .index: vai pegaros rótulos dos n_unicos com a máscara. .tolist(): vai transformar os rótulos em uma lista
 if colunas_constantes:
     print(f"✅ Encontradas {len(colunas_constantes)} colunas constantes:")
     for col in colunas_constantes:
-        valor = df[col].iloc[0]
-        print(f" → {col} (valor: {valor})")
+        valor = df[col].iloc[0] # Vai na coluna com valor único (df[col]) e o .iloc serve para acessar os indices por números ao inves de labels, nesse caso acessando o primeiro valor da coluna
+        print(f" → {col} (valor: {valor})") 
     
-    df = df.drop(columns=colunas_constantes)
+    df = df.drop(columns=colunas_constantes)    # Remove todos as colunas com valor único
 else:
     print("Nenhuma coluna constante encontrada.")
 
 # ====================== SALVAR LOG DE COLUNAS REMANESCENTES ======================
 print("\n📝 Salvando log das colunas que SOBRARAM...")
 
-colunas_finais = df.columns.tolist()
+colunas_finais = df.columns.tolist()    # Cria uma lista com todas as colunas que sobraram
 
-with open('colunas_remanescentes.txt', 'w', encoding='utf-8') as f:
+with open('colunas_remanescentes.txt', 'w', encoding='utf-8') as f: # Cria um arquivo .txt mostrando todas as colunas que sobraram e algumas informações como o dtype delas
     f.write("=== COLUNAS QUE CONTINUAM NO DATASET ===\n\n")
     f.write(f"Total de atributos restantes: {len(colunas_finais)}\n\n")
     

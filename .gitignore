@@ -13,3 +13,4 @@
 # 4. Arquivos essenciais do repositório
 # Permite versionar as próprias regras do Git e a documentação do projeto
 !.gitignore
+modelo.py
