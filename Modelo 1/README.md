@@ -1,17 +1,10 @@
-# Filtragem-de-dados
+# Modelo 1
 
-Não irei upar o dataset no git porque é muito pesado pro versionamento então esse repositório é APENAS para ir colocando os script de limpeza que fizeram (criem um .py para cada limpeza mesmo, exemplo, fez um script unica e exclusivamente pra transformar o atributo de data para semana epidemiologica, crie um .py e um .md APENAS para isso). O gitignore ta configurado para ignorar tudo que não seja .py e .md. Sempre que fizer qualquer tratamento no dataset POR FAVOR crie um .md detalhando O QUE VOCÊ fez e o PORQUÊ (só abrir qualquer .md que tiver ai que você entende o formato). Futuramente para treinar o modelo você irá baixar o datasetAmostrado.csv (irei por link depois) e executar os scrips na ordem certa e pronto, tem o dataset polido bonitinho.
+## Dataset original
+Foi coletado do Sinan os dataset referentes aos anos de 2021-2025, esse intervalo foi escolhido porque em 2021 foi alterado a estruturação do dataset. Ao todo tinhamos 5 arquivos .csv da dengue e 5 da chikungunya, a quantidade de instâncias somadas dos dataset chegava próxima aos 8 milhões, por conta desse alto volume foi realizada uma amostragem aleatória onde de cada tabela escolhiamos 20 mil instâncias, totalizando um datasetAmostrado de 200 mil instâncias.
 
-## Dataset para o modelo de classficação de arbovirose ou não
-Aqui vai dados pro modelo apenas dizer se o paciente tem ou não arbovirose, independente de qual seja ela.
-
-### Operações já feitas
-- Redução de instâncias através de amostragem aleatória dos datasets de dengue e chikungunya dos anos de 2021-2025 (foram pegos 20.000 casos de cada tabela, totalizando 200.000 instâncias)
-- Integração das 10 tabelas em uma única
-- Redução de atributos irrelevantes como dados administrativos e atributos referentes a exames (data leak) e prognósticos
-
-### TODO
-- Agrupar casos de dengue e chikungunya em um unico atributo "arbovirose"
+## Datase Amostrado
+Com o datasetAmostrado pronto, realizamos uma análise semântica de cada variável, decidimos se elas eram ou não relevantes para a aplicação e excluímos as colunas irrelevantes para diminuir a dimensionalidade do dataset.
 
 ### Como conseguir o dataset pré-processado
 1. clone o repositório (git clone https://github.com/lucaumxI/Filtragem-de-dados.git)
